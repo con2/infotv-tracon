@@ -27,7 +27,7 @@ if DEBUG:
     ]:
         module.is_secure_transport = fake_is_secure_transport
 
-ALLOWED_HOSTS = ['ssoexample.tracon.fi']
+ALLOWED_HOSTS = ['infotv.tracon.fi']
 
 INSTALLED_APPS = (
     'django.contrib.admin',
@@ -37,7 +37,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
-    'kompassi_oauth2_example',
+    'infotv',
 )
 
 MIDDLEWARE_CLASSES = (
@@ -59,14 +59,14 @@ TEMPLATE_LOADERS = (
     'django.template.loaders.app_directories.Loader',
 )
 
-ROOT_URLCONF = 'kompassi_oauth2_example.urls'
+ROOT_URLCONF = 'infotv_tracon.urls'
 
-WSGI_APPLICATION = 'kompassi_oauth2_example.wsgi.application'
+WSGI_APPLICATION = 'infotv_tracon.wsgi.application'
 
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'kompassi_oauth2_example.sqlite3'),
+        'NAME': os.path.join(BASE_DIR, 'infotv_tracon.sqlite3'),
     }
 }
 
@@ -133,6 +133,7 @@ KOMPASSI_OAUTH2_CLIENT_ID = 'kompassi_insecure_test_client_id'
 KOMPASSI_OAUTH2_CLIENT_SECRET = 'kompassi_insecure_test_client_secret'
 KOMPASSI_OAUTH2_SCOPE = ['read']
 KOMPASSI_API_V2_USER_INFO_URL = 'http://kompassi.dev:8000/api/v2/people/me'
+KOMPASSI_ACCESS_GROUP = 'infotv-staff'
 
 LOGIN_URL = '/oauth2/login'
 LOGOUT_URL = '/logout'
