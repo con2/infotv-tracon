@@ -40,6 +40,7 @@ INSTALLED_APPS = (
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'kompassi_oauth2',
     'infotv',
 )
 
@@ -131,17 +132,20 @@ USE_TZ = True
 STATIC_URL = '/static/'
 STATIC_ROOT = mkpath('static')
 
-KOMPASSI_OAUTH2_AUTHORIZATION_URL = 'http://kompassi.dev:8000/oauth2/authorize'
-KOMPASSI_OAUTH2_TOKEN_URL = 'http://kompassi.dev:8000/oauth2/token'
+KOMPASSI_INSTALLATION_SLUG = 'turskadev'
+KOMPASSI_HOST = 'http://kompassi.dev:8000'
+KOMPASSI_OAUTH2_AUTHORIZATION_URL = '{KOMPASSI_HOST}/oauth2/authorize'.format(**locals())
+KOMPASSI_OAUTH2_TOKEN_URL = '{KOMPASSI_HOST}/oauth2/token'.format(**locals())
 KOMPASSI_OAUTH2_CLIENT_ID = 'kompassi_insecure_test_client_id'
 KOMPASSI_OAUTH2_CLIENT_SECRET = 'kompassi_insecure_test_client_secret'
 KOMPASSI_OAUTH2_SCOPE = ['read']
-KOMPASSI_API_V2_USER_INFO_URL = 'http://kompassi.dev:8000/api/v2/people/me'
+KOMPASSI_API_V2_USER_INFO_URL = '{KOMPASSI_HOST}/api/v2/people/me'.format(**locals())
+KOMPASSI_API_V2_EVENT_INFO_URL_TEMPLATE = '{kompassi_host}/api/v2/events/{event_slug}'
 KOMPASSI_ADMIN_GROUP = 'admins'
 KOMPASSI_EDITOR_GROUP = 'infotv-staff'
 
-LOGIN_URL = '/oauth2/login'
-LOGOUT_URL = '/logout'
+LOGIN_URL = '/oauth2/login' if 'kompassi_oauth2' in INSTALLED_APPS else '/admin/login/'
+LOGOUT_URL = '/admin/logout/'
 
 INFOTV_DEFAULT_EVENT_SLUG = 'traconx'
 INFOTV_POLICY_CLASS = 'infotv_tracon.policy.TraconPolicy'
