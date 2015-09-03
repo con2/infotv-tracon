@@ -6,6 +6,9 @@ SECRET_KEY = '9()(lzm)jdr$szjfdx8^^#j_6efj@d&$9pb6l2h&=udxom3(bn'
 DEBUG = True
 TEMPLATE_DEBUG = True
 
+def mkpath(*parts):
+    return os.path.abspath(os.path.join(BASE_DIR, *parts))
+
 if DEBUG:
     # XXX Monkey patch is_secure_transport to allow development over insecure HTTP
 
@@ -126,6 +129,7 @@ USE_L10N = True
 USE_TZ = True
 
 STATIC_URL = '/static/'
+STATIC_ROOT = mkpath('static')
 
 KOMPASSI_OAUTH2_AUTHORIZATION_URL = 'http://kompassi.dev:8000/oauth2/authorize'
 KOMPASSI_OAUTH2_TOKEN_URL = 'http://kompassi.dev:8000/oauth2/token'
@@ -133,7 +137,11 @@ KOMPASSI_OAUTH2_CLIENT_ID = 'kompassi_insecure_test_client_id'
 KOMPASSI_OAUTH2_CLIENT_SECRET = 'kompassi_insecure_test_client_secret'
 KOMPASSI_OAUTH2_SCOPE = ['read']
 KOMPASSI_API_V2_USER_INFO_URL = 'http://kompassi.dev:8000/api/v2/people/me'
-KOMPASSI_ACCESS_GROUP = 'infotv-staff'
+KOMPASSI_ADMIN_GROUP = 'admins'
+KOMPASSI_EDITOR_GROUP = 'infotv-staff'
 
 LOGIN_URL = '/oauth2/login'
 LOGOUT_URL = '/logout'
+
+INFOTV_DEFAULT_EVENT_SLUG = 'traconx'
+INFOTV_POLICY_CLASS = 'infotv_tracon.policy.TraconPolicy'
