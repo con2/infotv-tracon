@@ -59,4 +59,4 @@ class CallbackView(View):
             login(request, user)
             return redirect(next_url if next_url else '/')
         else:
-            return HttpResponse(LOGIN_FAILED, status_code=401)
+            return HttpResponse(LOGIN_FAILED, status=401)
