@@ -146,5 +146,5 @@ KOMPASSI_EDITOR_GROUP = 'infotv-staff'
 LOGIN_URL = '/oauth2/login' if 'kompassi_oauth2' in INSTALLED_APPS else '/admin/login/'
 LOGOUT_URL = '/admin/logout/'
 
-INFOTV_DEFAULT_EVENT_SLUG = 'traconx'
+INFOTV_DEFAULT_EVENT_SLUG = 'hitpoint2015'
 INFOTV_POLICY_CLASS = 'infotv_tracon.policy.TraconPolicy'
