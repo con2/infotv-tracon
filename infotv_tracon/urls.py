@@ -1,5 +1,5 @@
 from django.conf import settings
-from django.conf.urls import patterns, include, url
+from django.conf.urls import include, url
 from django.views.decorators.csrf import csrf_exempt
 from django.views.generic.base import RedirectView
 
@@ -11,11 +11,11 @@ from infotv.views import InfoTvView
 from .views import infotv_edit_redirect_view
 
 
-urlpatterns = patterns('',
+urlpatterns = [
     url(r'', include('kompassi_oauth2.urls')),
     url(r'^$', RedirectView.as_view(url="/events/{event_slug}/infotv/?slow=1".format(event_slug=settings.INFOTV_DEFAULT_EVENT))),
     url(r'^edit/?$', infotv_edit_redirect_view, dict(event=settings.INFOTV_DEFAULT_EVENT)),
     url(r'^events/(?P<event>[a-z0-9-]+)/infotv/?$', csrf_exempt(InfoTvView.as_view()), name='infotv_view'),
     url(r'^events/(?P<event>[a-z0-9-]+)/infotv/edit/?$', infotv_edit_redirect_view, name='infotv_edit_redirect_view'),
     url(r'^admin/', include(admin.site.urls)),
-)
+]
