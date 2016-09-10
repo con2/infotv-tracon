@@ -6,7 +6,7 @@ RUN git clone --depth=1 https://github.com/kcsry/infotv && \
     rm -rf infotv/.git && \
     cd infotv/infotv/frontend && \
     npm install && \
-    INFOTV_STYLE=tracon NODE_ENV=production node_modules/.bin/gulp build && \
+    INFOTV_STYLE=tracon NODE_ENV=production npm run build && \
     rm -rf node_modules && \
     mkdir /usr/src/app/infotv-tracon && \
     groupadd -r infotv && useradd -r -g infotv infotv
