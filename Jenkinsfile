@@ -1,4 +1,4 @@
-def image = "tracon/infokala:build-${env.BUILD_NUMBER}"
+def image = "tracon/infotv:build-${env.BUILD_NUMBER}"
 
 stage("Build") {
   node {
@@ -13,7 +13,7 @@ stage("Build") {
 //       docker run \
 //         --rm \
 //         --link jenkins.tracon.fi-postgres:postgres \
-//         --env-file ~/.infokala.env \
+//         --env-file ~/.infotv.env \
 //         ${image} \
 //         python manage.py test --keepdb
 //     """
@@ -22,7 +22,7 @@ stage("Build") {
 
 stage("Push") {
   node {
-    sh "docker tag ${image} tracon/infokala:latest && docker push tracon/infokala:latest"
+    sh "docker tag ${image} tracon/infotv:latest && docker push tracon/infotv:latest"
   }
 }
 
@@ -34,7 +34,7 @@ stage("Deploy") {
         --vault-password-file=~/.vault_pass.txt \
         --user root \
         --limit nuoli.tracon.fi \
-        --tags infokala-deploy \
+        --tags infotv-deploy \
         tracon.yml
     """
   }
