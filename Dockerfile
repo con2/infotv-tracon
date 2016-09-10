@@ -4,7 +4,7 @@ RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get -y install nodejs
 RUN git clone --depth=1 https://github.com/kcsry/infotv && \
     rm -rf infotv/.git && \
-    cd infotv && \
+    cd infotv/infotv/frontend && \
     npm install && \
     INFOTV_STYLE=tracon NODE_ENV=production node_modules/.bin/gulp build && \
     rm -rf node_modules && \
