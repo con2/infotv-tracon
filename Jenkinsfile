@@ -22,7 +22,7 @@ stage("Build") {
 
 stage("Push") {
   node {
-    sh "docker tag ${image} tracon/infotv:latest && docker push tracon/infotv:latest"
+    sh "docker tag ${image} tracon/infotv:latest && docker push tracon/infotv:latest && docker rmi ${image}"
   }
 }
 
