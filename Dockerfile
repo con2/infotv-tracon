@@ -2,11 +2,11 @@ FROM python:2.7
 WORKDIR /usr/src/app
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get -y install nodejs
-RUN git clone --depth=1 https://github.com/kcsry/infotv && \
+RUN git clone --depth=1 https://github.com/kcsry/infotv -b babel-polyfill && \
     rm -rf infotv/.git && \
     cd infotv/infotv/frontend && \
     npm install && \
-    INFOTV_STYLE=tracon NODE_ENV=production npm run build && \
+    INFOTV_STYLE=tracon NODE_ENV=production npm run release && \
     rm -rf node_modules && \
     mkdir /usr/src/app/infotv-tracon && \
     groupadd -r infotv && useradd -r -g infotv infotv
