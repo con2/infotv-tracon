@@ -3,7 +3,7 @@ def image = "tracon/infotv:build-${env.BUILD_NUMBER}"
 stage("Build") {
   node {
     checkout scm
-    sh "docker build --tag ${image} ."
+    sh "docker build --no-cache --tag ${image} ."
   }
 }
 
