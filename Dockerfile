@@ -2,7 +2,7 @@ FROM python:2.7
 WORKDIR /usr/src/app
 RUN curl -sL https://deb.nodesource.com/setup_6.x | bash - && \
     apt-get -y install nodejs
-RUN git clone --depth=1 https://github.com/kcsry/infotv && \
+RUN git clone --depth=1 --branch=v0.3.0 https://github.com/kcsry/infotv && \
     rm -rf infotv/.git && \
     cd infotv/infotv/frontend && \
     npm install && \
