@@ -75,7 +75,7 @@ Workaround: Add something like this to `/etc/hosts` and use `http://kompassi.dev
 
     The MIT License (MIT)
 
-    Copyright (c) 2014–2015 Santtu Pajukanta
+    Copyright (c) 2014–2020 Santtu Pajukanta
 
     Permission is hereby granted, free of charge, to any person obtaining a copy
     of this software and associated documentation files (the "Software"), to deal

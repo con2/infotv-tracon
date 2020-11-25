@@ -1,7 +1,3 @@
-# encoding: utf-8
-
-from __future__ import absolute_import, unicode_literals
-
 import os
 from datetime import datetime, timedelta
 from email.utils import parseaddr
@@ -45,22 +41,36 @@ INSTALLED_APPS = (
     'infotv',
 )
 
-MIDDLEWARE_CLASSES = (
+MIDDLEWARE = [
+    'django.middleware.security.SecurityMiddleware',
+    'whitenoise.middleware.WhiteNoiseMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
-)
+    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+]
+
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': [],
+        'APP_DIRS': True,
+        'OPTIONS': {
+            'context_processors': [
+                'django.template.context_processors.debug',
+                'django.template.context_processors.request',
+                'django.contrib.auth.context_processors.auth',
+                'django.contrib.messages.context_processors.messages',
+            ],
+        },
+    },
+]
 
 AUTHENTICATION_BACKENDS = (
     'kompassi_oauth2.backends.KompassiOAuth2AuthenticationBackend',
     'django.contrib.auth.backends.ModelBackend',
-)
-
-TEMPLATE_LOADERS = (
-    'django.template.loaders.filesystem.Loader',
-    'django.template.loaders.app_directories.Loader',
 )
 
 ROOT_URLCONF = 'infotv_tracon.urls'
@@ -144,5 +154,5 @@ KOMPASSI_API_V2_EVENT_INFO_URL_TEMPLATE = '{kompassi_host}/api/v2/events/{event_
 KOMPASSI_ADMIN_GROUP = env('KOMPASSI_ADMIN_GROUP', default='admins')
 KOMPASSI_EDITOR_GROUP = env('KOMPASSI_EDITOR_GROUP', default='infotv-staff')
 
-INFOTV_DEFAULT_EVENT = env('INFOTV_DEFAULT_EVENT', default='tracon11')
+INFOTV_DEFAULT_EVENT = env('INFOTV_DEFAULT_EVENT', default='tracon2021')
 INFOTV_POLICY_CLASS = 'infotv_tracon.policy.TraconPolicy'

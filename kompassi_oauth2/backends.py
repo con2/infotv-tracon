@@ -9,13 +9,13 @@ def user_attrs_from_kompassi(kompassi_user):
         ('first_name', lambda u: u['first_name']),
         ('last_name', lambda u: u['surname']),
         ('is_superuser', lambda u: settings.KOMPASSI_ADMIN_GROUP in u['groups']),
-        ('is_staff', lambda u: settings.KOMPASSI_EDITOR_GROUP in u['groups']),
+        ('is_staff', lambda u: settings.KOMPASSI_ADMIN_GROUP in u['groups']),
         ('groups', lambda u: [Group.objects.get_or_create(name=group_name)[0] for group_name in u['groups']]),
     ])
 
 
 class KompassiOAuth2AuthenticationBackend(object):
-    def authenticate(self, oauth2_session=None, **kwargs):
+    def authenticate(self, request, oauth2_session=None, **kwargs):
         if oauth2_session is None:
             # Not ours (password login)
             return None
@@ -30,9 +30,11 @@ class KompassiOAuth2AuthenticationBackend(object):
 
         user, created = User.objects.get_or_create(username=kompassi_user['username'])
 
-        for key, value in user_attrs_from_kompassi(kompassi_user).iteritems():
+        user_attrs = user_attrs_from_kompassi(kompassi_user)
+        groups = user_attrs.pop('groups', Group.objects.none())
+        user.groups.set(groups)
+        for key, value in user_attrs.items():
             setattr(user, key, value)
-
         user.save()
 
         return user

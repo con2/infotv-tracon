@@ -8,7 +8,7 @@ admin.autodiscover()
 
 from infotv.views import InfoTvView
 
-from .views import infotv_edit_redirect_view
+from .views import infotv_edit_redirect_view, status_view
 
 
 urlpatterns = [
@@ -17,5 +17,6 @@ urlpatterns = [
     url(r'^edit/?$', infotv_edit_redirect_view, dict(event=settings.INFOTV_DEFAULT_EVENT)),
     url(r'^events/(?P<event>[a-z0-9-]+)/infotv/?$', csrf_exempt(InfoTvView.as_view()), name='infotv_view'),
     url(r'^events/(?P<event>[a-z0-9-]+)/infotv/edit/?$', infotv_edit_redirect_view, name='infotv_edit_redirect_view'),
-    url(r'^admin/', include(admin.site.urls)),
+    url(r'^admin/', admin.site.urls),
+    url(r'^healthz/?$', status_view, name='status_view'),
 ]

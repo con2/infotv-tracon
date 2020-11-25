@@ -1,14 +1,14 @@
 from django.contrib.auth.decorators import login_required
-from django.core.urlresolvers import reverse
+from django.http import JsonResponse
+from django.urls import reverse
 from django.conf import settings
 from django.shortcuts import redirect
-
 
 import infotv.views
 
 
 # Monkey patch infotv bootstrap template to add viewport tag
-infotv.views.TEMPLATE = u"""
+infotv.views.TEMPLATE = """
 <!doctype html>
 <html lang="en">
 <head>
@@ -59,3 +59,7 @@ infotv.views.TEMPLATE = u"""
 @login_required
 def infotv_edit_redirect_view(self, event):
     return redirect(reverse('infotv_view', args=(event,)) + '?edit=1')
+
+
+def status_view(request):
+    return JsonResponse({'status': 'OK'})

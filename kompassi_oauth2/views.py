@@ -1,10 +1,8 @@
-# encoding: utf-8
-
 from django.http import HttpResponse
 from django.views.generic import View
 from django.shortcuts import redirect
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.contrib.auth import authenticate, login
 
 from requests_oauthlib import OAuth2Session
@@ -24,18 +22,6 @@ class LoginView(View):
         request.session['oauth_state'] = state
         request.session['oauth_next'] = request.GET.get('next', None)
         return redirect(authorization_url)
-
-
-LOGIN_FAILED = """
-<p>Sisäänkirjautuminen Kompassin kautta epäonnistui. Todennäköisesti tämä johtuu siitä, että sinulla
-ei ole oikeutta sivuston muokkaamiseen.</p>
-<ul>
-<li>Jos olet saanut muokkausoikeuden aivan taannoin, <a href='{kompassi}/logout'>kirjaudu ulos Kompassista</a> ja yritä uudelleen.
-Muokkausoikeus tulee voimaan sisäänkirjautumisen yhteydessä.</li>
-<li>Mikäli sinulla tulisi mielestäsi olla muokkausoikeus ja ylläoleva ei auttanut, ota yhteyttä
-Japsuun.</li>
-</ul>
-""".format(kompassi=settings.KOMPASSI_HOST)
 
 
 class CallbackView(View):
@@ -59,4 +45,4 @@ class CallbackView(View):
             login(request, user)
             return redirect(next_url if next_url else '/')
         else:
-            return HttpResponse(LOGIN_FAILED, status=401)
+            return HttpResponse('OAuth2 login failed', status=403)

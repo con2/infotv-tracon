@@ -1,41 +1,29 @@
-def image = "tracon/infotv:build-${env.BUILD_NUMBER}"
+pipeline {
+  agent any
 
-stage("Build") {
-  node {
-    checkout scm
-    sh "docker build --no-cache --tag ${image} ."
+  environment {
+    PYTHONUNBUFFERED = "1"
+    SKAFFOLD_DEFAULT_REPO = "harbor.con2.fi/con2"
   }
-}
 
-// stage("Test") {
-//   node {
-//     sh """
-//       docker run \
-//         --rm \
-//         --link jenkins.tracon.fi-postgres:postgres \
-//         --env-file ~/.infotv.env \
-//         ${image} \
-//         python manage.py test --keepdb
-//     """
-//   }
-// }
+  stages {
+    stage("Build") {
+      steps {
+        sh "emskaffolden -E production -- build --file-output build.json"
+      }
+    }
 
-stage("Push") {
-  node {
-    sh "docker tag ${image} tracon/infotv:latest && docker push tracon/infotv:latest && docker rmi ${image}"
+    stage("Deploy") {
+      steps {
+        sh "emskaffolden -E production -- deploy -n infotv -a=build.json"
+      }
+    }
   }
-}
 
-stage("Deploy") {
-  node {
-    git url: "git@github.com:tracon/ansible-tracon"
-    sh """
-      ansible-playbook \
-        --vault-password-file=~/.vault_pass.txt \
-        --user root \
-        --limit nuoli.tracon.fi \
-        --tags infotv-deploy \
-        tracon.yml
-    """
+  post {
+    always {
+      archiveArtifacts "build.json"
+      archiveArtifacts "kubernetes/template.compiled.yaml"
+    }
   }
 }
