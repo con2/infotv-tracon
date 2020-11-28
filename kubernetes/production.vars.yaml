@@ -3,6 +3,9 @@ infotv_default_event: tracon2021
 djangoapp_secret_managed: false
 djangoapp_admins:
   - Santtu Pajukanta <santtu@pajukanta.fi>
+djangoapp_allowed_hosts:
+  - !Var ingress_public_hostname
+  - infotv-insecure.tracon.fi
 
 ingress_public_hostname: infotv.tracon.fi
 

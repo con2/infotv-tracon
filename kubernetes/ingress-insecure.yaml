@@ -1,0 +1,26 @@
+# treta infotv terminals are aeons-old android that can't modern SSL
+# so here's an example ingress to do just read-only stuff
+# remember djangoapp_allowed_hosts
+
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+  name: infotv-insecure
+spec:
+  rules:
+  - host: infotv-insecure.tracon.fi
+    http:
+      paths:
+      - path: /admin/
+        backend:
+          serviceName: default-backend
+          servicePort: 80
+      - path: /oauth2/
+        backend:
+          serviceName: default-backend
+          servicePort: 80
+
+      - path: /
+        backend:
+          serviceName: gunicorn
+          servicePort: 8000
