@@ -30,7 +30,7 @@ requests==2.25.1
     # via requests-oauthlib
 sqlparse==0.4.1
     # via django
-urllib3==1.26.4
+urllib3==1.26.5
     # via requests
 whitenoise==5.2.0
     # via -r requirements.in
