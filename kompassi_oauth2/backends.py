@@ -3,15 +3,24 @@ from django.conf import settings
 
 
 def user_attrs_from_kompassi(kompassi_user):
-    return dict((django_key, accessor_func(kompassi_user)) for (django_key, accessor_func) in [
-        ('username', lambda u: u['username']),
-        ('email', lambda u: u['email']),
-        ('first_name', lambda u: u['first_name']),
-        ('last_name', lambda u: u['surname']),
-        ('is_superuser', lambda u: settings.KOMPASSI_ADMIN_GROUP in u['groups']),
-        ('is_staff', lambda u: settings.KOMPASSI_ADMIN_GROUP in u['groups']),
-        ('groups', lambda u: [Group.objects.get_or_create(name=group_name)[0] for group_name in u['groups']]),
-    ])
+    return dict(
+        (django_key, accessor_func(kompassi_user))
+        for (django_key, accessor_func) in [
+            ("username", lambda u: u["username"]),
+            ("email", lambda u: u["email"]),
+            ("first_name", lambda u: u["first_name"]),
+            ("last_name", lambda u: u["surname"]),
+            ("is_superuser", lambda u: settings.KOMPASSI_ADMIN_GROUP in u["groups"]),
+            ("is_staff", lambda u: settings.KOMPASSI_EDITOR_GROUP in u["groups"]),
+            (
+                "groups",
+                lambda u: [
+                    Group.objects.get_or_create(name=group_name)[0]
+                    for group_name in u["groups"]
+                ],
+            ),
+        ]
+    )
 
 
 class KompassiOAuth2AuthenticationBackend(object):
@@ -25,13 +34,13 @@ class KompassiOAuth2AuthenticationBackend(object):
         kompassi_user = response.json()
 
         # Non-editor users may not log in via OAuth2
-        if settings.KOMPASSI_EDITOR_GROUP not in kompassi_user['groups']:
+        if settings.KOMPASSI_EDITOR_GROUP not in kompassi_user["groups"]:
             return None
 
-        user, created = User.objects.get_or_create(username=kompassi_user['username'])
+        user, created = User.objects.get_or_create(username=kompassi_user["username"])
 
         user_attrs = user_attrs_from_kompassi(kompassi_user)
-        groups = user_attrs.pop('groups', Group.objects.none())
+        groups = user_attrs.pop("groups", Group.objects.none())
         user.groups.set(groups)
         for key, value in user_attrs.items():
             setattr(user, key, value)
