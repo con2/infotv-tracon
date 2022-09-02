@@ -58,8 +58,8 @@ infotv.views.TEMPLATE = """
 
 @login_required
 def infotv_edit_redirect_view(self, event):
-    return redirect(reverse('infotv_view', args=(event,)) + '?edit=1')
+    return redirect(reverse("infotv_view", args=(event,)) + "?edit=1")
 
 
 def status_view(request):
-    return JsonResponse({'status': 'OK'})
+    return JsonResponse({"status": "OK"})
