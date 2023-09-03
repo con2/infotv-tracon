@@ -2,9 +2,8 @@ import os
 from datetime import datetime, timedelta
 from email.utils import parseaddr
 
-from django.utils.translation import ugettext_lazy as _
-
 import environ
+from django.utils.translation import gettext_lazy as _
 
 
 env = environ.Env(
