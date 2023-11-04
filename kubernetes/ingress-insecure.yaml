@@ -11,16 +11,10 @@ spec:
   - host: infotv-insecure.tracon.fi
     http:
       paths:
-      - path: /admin/
+      - pathType: Prefix
+        path: /
         backend:
-          serviceName: default-backend
-          servicePort: 80
-      - path: /oauth2/
-        backend:
-          serviceName: default-backend
-          servicePort: 80
-
-      - path: /
-        backend:
-          serviceName: gunicorn
-          servicePort: 8000
+          service:
+            name: node
+            port:
+              number: 3000
