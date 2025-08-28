@@ -31,6 +31,7 @@ smtp_default_from_email: ''
 
 # Set this to the public hostname of your service.
 ingress_public_hostname: !Format "{djangoapp_name}.localhost"
+ingress_class_name: nginx
 
 # If you use ingress-nginx and cert-manager, TLS can be automatically configured by setting this to true.
 ingress_letsencrypt_enabled: false
