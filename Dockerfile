@@ -7,7 +7,7 @@ RUN git clone https://github.com/kcsry/infotv --depth=1 -b v0.4.1 && \
     NODE_OPTIONS=--openssl-legacy-provider INFOTV_STYLE=tracon NODE_ENV=production npm run release && \
     rm -rf node_modules
 
-FROM python:3.11
+FROM python:3.12
 COPY --from=0 /usr/src/app/infotv /usr/src/app/infotv
 RUN mkdir /usr/src/app/infotv-tracon && \
     groupadd -r infotv && useradd -r -g infotv infotv
